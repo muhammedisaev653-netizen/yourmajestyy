@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ваша Честь — Профессиональные юристы</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;700;900&display=swap" rel="stylesheet">
+    <style>
+        /* Найти тег <style> и вставить туда это: */
+
+.services-grid {
+    display: grid;
+    /* Создает колонки, которые сами подстраиваются под ширину экрана */
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); 
+    gap: 20px;
+    width: 100%;
+    margin-top: 50px;
+}
+
+.service-item {
+    position: relative;
+    height: 400px;
+    overflow: hidden;
+    display: flex;
+    align-items: flex-end;
+    padding: 30px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    transition: all 0.5s ease;
+}
+
+.service-item img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: -1;
+    opacity: 0.4; /* Затемнение картинки, чтобы текст читался */
+    transition: transform 0.8s ease, opacity 0.5s ease;
+}
+
+.service-item:hover img {
+    transform: scale(1.1);
+    opacity: 0.7; /* При наведении картинка становится ярче */
+}
+
+.service-content {
+    position: relative;
+    z-index: 2;
+}
+
+.service-item h3 {
+    font-size: 24px;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+    font-weight: 700;
+}
+
+.service-item ul {
+    list-style: none;
+    font-size: 14px;
+    line-height: 1.4;
+    opacity: 0; /* Скрываем список по умолчанию */
+    transform: translateY(20px);
+    transition: all 0.5s ease;
+}
+
+.service-item:hover ul {
+    opacity: 1; /* Показываем список при наведении */
+    transform: translateY(0);
+}
+
+.service-item li {
+    margin-bottom: 5px;
+    color: rgba(255, 255, 255, 0.9);
+}
+        :root {
+            --primary: #031526;
+            --accent: #00d4ff;
+            --text: #ffffff;
+            --card-bg: rgba(255, 255, 255, 0.03);
+            --transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            font-family: 'Montserrat', sans-serif; 
+            background-color: var(--primary); 
+            color: var(--text); 
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        /* --- ФОНОВЫЕ ЭФФЕКТЫ --- */
+        .orb {
+            position: fixed; width: 50vw; height: 50vw;
+            background: radial-gradient(circle, rgba(0,212,255,0.08) 0%, rgba(0,0,0,0) 70%);
+            border-radius: 50%; z-index: -1; pointer-events: none;
+            animation: float 25s infinite alternate;
+        }
+
+        @keyframes float {
+            0% { transform: translate(-10%, -10%) rotate(0deg); }
+            100% { transform: translate(20%, 30%) rotate(10deg); }
+        }
+
+        .container { max-width: 1300px; margin: 0 auto; padding: 0 25px; }
+        section { padding: 100px 0; }
+        .reveal { opacity: 0; transform: translateY(40px); transition: var(--transition); }
+        .reveal.active { opacity: 1; transform: translateY(0); }
+
+        /* --- ГЛАВНЫЙ БЛОК --- */
+        .hero { height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; background: radial-gradient(circle at center, rgba(0,212,255,0.05) 0%, transparent 70%); }
+        .hero h1 { font-size: clamp(40px, 10vw, 120px); font-weight: 900; line-height: 0.9; margin-bottom: 20px; text-transform: uppercase; }
+        .hero p { max-width: 700px; font-size: 18px; opacity: 0.8; margin-bottom: 40px; font-weight: 300; }
+        .app-buttons { display: flex; gap: 20px; flex-wrap: wrap; justify-content: center; }
+        
+        .btn {
+            padding: 18px 35px; border: 1px solid rgba(255,255,255,0.2); text-decoration: none;
+            color: #fff; font-weight: 700; font-size: 14px; letter-spacing: 2px;
+            transition: var(--transition); position: relative; overflow: hidden;
+        }
+        .btn:hover { background: var(--accent); color: #000; border-color: var(--accent); transform: scale(1.05); }
+
+        /* --- ПОЧЕМУ МЫ (ИКОНКИ) --- */
+        .why-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 30px; }
+        .why-card { background: var(--card-bg); padding: 40px; border: 1px solid rgba(255,255,255,0.05); transition: var(--transition); }
+        .why-card:hover { border-color: var(--accent); background: rgba(255,255,255,0.06); transform: translateY(-10px); }
+        
+        .icon-box { width: 50px; height: 50px; margin-bottom: 25px; fill: var(--accent); }
+        .why-card h3 { margin-bottom: 15px; font-size: 20px; text-transform: uppercase; }
+        .why-card p { font-size: 15px; opacity: 0.7; }
+
+        /* --- О НАС --- */
+        .about-flex { display: flex; align-items: center; gap: 60px; flex-wrap: wrap; }
+        .about-img { flex: 1; min-width: 300px; border: 1px solid var(--accent); padding: 15px; }
+        .about-img img { width: 100%; display: block; filter: contrast(1.1); }
+        .about-text { flex: 1.2; min-width: 300px; }
+        .about-text h2 { font-size: 45px; margin-bottom: 30px; }
+        .about-text p { font-size: 18px; opacity: 0.8; margin-bottom: 20px; }
+
+        /* --- УСЛУГИ (СЕТКА) --- */
+        .services-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
+        .service-item { 
+            position: relative; height: 400px; overflow: hidden; border: 1px solid rgba(255,255,255,0.1); 
+            display: flex; align-items: flex-end; padding: 30px;
+        }
+        .service-item img { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; z-index: -1; transition: 1s; opacity: 0.4; }
+        .service-item:hover img { transform: scale(1.1); opacity: 0.6; }
+        .service-content { position: relative; z-index: 2; }
+        .service-item h3 { font-size: 24px; margin-bottom: 10px; }
+        .service-item ul { list-style: none; font-size: 14px; opacity: 0; transform: translateY(20px); transition: 0.5s; }
+        .service-item:hover ul { opacity: 0.8; transform: translateY(0); }
+
+        /* --- КОМАНДА --- */
+        .team-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 40px; }
+        .team-card { text-align: center; }
+        .team-photo { width: 100%; aspect-ratio: 1/1; border-radius: 50%; overflow: hidden; margin-bottom: 20px; border: 2px solid transparent; transition: var(--transition); }
+        .team-card:hover .team-photo { border-color: var(--accent); transform: scale(0.95); }
+        .team-photo img { width: 100%; height: 100%; object-fit: cover; }
+        .team-card h4 { font-size: 20px; color: var(--accent); margin-bottom: 10px; }
+        .team-card ul { list-style: none; font-size: 13px; opacity: 0.6; text-align: left; padding: 0 10px; }
+        .team-card li { margin-bottom: 5px; position: relative; padding-left: 15px; }
+        .team-card li::before { content: '—'; position: absolute; left: 0; color: var(--accent); }
+
+        /* --- ФОРМА --- */
+        .contact-box { background: #fff; color: #000; padding: 60px; border-radius: 0; text-align: center; }
+        .input-group { margin-bottom: 25px; position: relative; }
+        .contact-box input, .contact-box textarea { 
+            width: 100%; padding: 15px 0; border: none; border-bottom: 1px solid #ccc; outline: none; font-family: inherit; font-size: 16px;
+        }
+        .contact-box h2 { font-size: 35px; margin-bottom: 10px; }
+
+        /* АДАПТИВНОСТЬ */
+        @media (max-width: 768px) {
+            section { padding: 60px 0; }
+            .hero h1 { font-size: 50px; }
+            .about-flex { flex-direction: column-reverse; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="orb"></div>
+    <div class="orb" style="right: -10%; bottom: -10%; animation-delay: -5s;"></div>
+
+    <section class="hero container">
+        <h1 class="reveal">Ваша Честь</h1>
+        <p class="reveal">Профессиональные юристы и полная конфиденциальность — все услуги для защиты Вашего права и чести в приложении «Ваша Честь»</p>
+        <div class="app-buttons reveal">
+            <a href="#" class="btn">СКАЧАТЬ НА IOS →</a>
+            <a href="#" class="btn">СКАЧАТЬ НА ANDROID →</a>
+        </div>
+    </section>
+
+    <section class="container">
+        <h2 class="reveal" style="font-size: 40px; margin-bottom: 60px; text-align: center;">Почему именно мы?</h2>
+        <div class="why-grid">
+            <div class="why-card reveal">
+                <div class="icon-box"><svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg></div>
+                <h3>Опытный переводчик</h3>
+                <p>Обеспечиваем точное понимание документов и переговоров без языковых барьеров.</p>
+            </div>
+            <div class="why-card reveal">
+                <div class="icon-box"><svg viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg></div>
+                <h3>Опытные специалисты</h3>
+                <p>Над вашим делом работают только профессионалы с практическим опытом.</p>
+            </div>
+            <div class="why-card reveal">
+                <div class="icon-box"><svg viewBox="0 0 24 24"><path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z"/></svg></div>
+                <h3>Поддержка 24/7</h3>
+                <p>Мы всегда на связи, чтобы ответить на ваши вопросы и поддержать в любой момент.</p>
+            </div>
+            </div>
+    </section>
+
+    <section class="container reveal">
+        <div class="about-flex">
+            <div class="about-img">
+                <img src="images/about-main.jpg" alt="Наша команда">
+            </div>
+            <div class="about-text">
+               <h2 class="reveal" style="font-size: 50px; margin-bottom: 20px; text-align: center; text-transform: uppercase;">Наши услуги</h2>
+<p class="reveal" style="text-align: center; margin-bottom: 60px; opacity: 0.7; max-width: 800px; margin-left: auto; margin-right: auto;">
+    Вы можете выбрать, в каком правовом поле Вам требуется помощь или особое внимание.
+</p>
+
+<div class="services-grid">
+    <div class="service-item reveal">
+        <img src="images/serv-labor.jpg" alt="Трудовой вопрос">
+        <div class="service-content">
+            <h3>Трудовой вопрос</h3>
+            <ul>
+                <li>Сопровождение трудовых отношений</li>
+                <li>Разрешение трудовых споров</li>
+                <li>Консультации по увольнению, сокращению и охране труда</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="service-item reveal">
+        <img src="images/serv-migration.jpg" alt="Миграционный вопрос">
+        <div class="service-content">
+            <h3>Миграционный вопрос</h3>
+            <ul>
+                <li>Оформление легального статуса</li>
+                <li>Представительство в госорганах</li>
+                <li>Помощь иностранцам и лицам без гражданства</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="service-item reveal">
+        <img src="images/serv-contract.jpg" alt="Договорной вопрос">
+        <div class="service-content">
+            <h3>Договорной вопрос</h3>
+            <ul>
+                <li>Разработка и экспертиза договоров</li>
+                <li>Купля-продажа, аренда, подряд</li>
+                <li>Расторжение и сопровождение сделок</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="service-item reveal">
+        <img src="images/serv-gov.jpg" alt="Госзакупки">
+        <div class="service-content">
+            <h3>Государственные закупки</h3>
+            <ul>
+                <li>Консультации по 44-ФЗ и 223-ФЗ</li>
+                <li>Представительство в ФАС</li>
+                <li>Защита от РНП</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="service-item reveal">
+        <img src="images/serv-realty.jpg" alt="Недвижимость">
+        <div class="service-content">
+            <h3>Недвижимость и земля</h3>
+            <ul>
+                <li>Сопровождение сделок и ипотеки</li>
+                <li>Оформление земельных участков</li>
+                <li>Разрешение земельных споров</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="service-item reveal">
+        <img src="images/serv-admin.jpg" alt="Административный вопрос">
+        <div class="service-content">
+            <h3>Административный вопрос</h3>
+            <ul>
+                <li>Защита при привлечении к ответственности</li>
+                <li>Обжалование решений госорганов</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="service-item reveal">
+        <img src="images/serv-court.jpg" alt="Суды">
+        <div class="service-content">
+            <h3>Представительство в судах</h3>
+            <ul>
+                <li>Суды общей юрисдикции</li>
+                <li>Арбитражные суды</li>
+                <li>Защита Ваших интересов на всех стадиях</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="service-item reveal">
+        <img src="images/serv-family.jpg" alt="Семейный вопрос">
+        <div class="service-content">
+            <h3>Семейный вопрос</h3>
+            <ul>
+                <li>Расторжение брака и раздел имущества</li>
+                <li>Брачные договоры и алименты</li>
+                <li>Родительские права</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="service-item reveal">
+        <img src="images/serv-audit.jpg" alt="Due Diligence">
+        <div class="service-content">
+            <h3>Правовой аудит</h3>
+            <ul>
+                <li>Проверка чистоты сделок и активов</li>
+                <li>Due Diligence компаний</li>
+                <li>Инвестиционный контроль</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="service-item reveal">
+        <img src="images/serv-checks.jpg" alt="Проверки">
+        <div class="service-content">
+            <h3>Сопровождение проверок</h3>
+            <ul>
+                <li>Налоговая и Трудовая инспекции</li>
+                <li>Роспотребнадзор</li>
+                <li>Защита интересов при госконтроле</li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <section class="container">
+        <h2 class="reveal" style="text-align: center; margin-bottom: 80px;">"ВАША ЧЕСТЬ" В ЛИЦАХ</h2>
+        <div class="team-grid">
+            <div class="team-card reveal">
+                <div class="team-photo"><img src="images/team-maria.jpg" alt=""></div>
+                <h4>Мареева Мария</h4>
+                <ul>
+                    <li>Магистр юриспруденции</li>
+                    <li>5+ лет опыта</li>
+                    <li>Лектор курсов квалификации</li>
+                </ul>
+            </div>
+            <div class="team-card reveal">
+                <div class="team-photo"><img src="images/team-ilya.jpg" alt=""></div>
+                <h4>Дашук Илья</h4>
+                <ul>
+                    <li>Управление мебельной компанией</li>
+                    <li>Проекты на 12.5 млн руб.</li>
+                    <li>Мастер активных продаж</li>
+                </ul>
+            </div>
+            <div class="team-card reveal">
+                <div class="team-photo"><img src="images/team-mukhammed.jpg" alt=""></div>
+                <h4>Исаев Мухаммед</h4>
+                <ul>
+                    <li>Специалист по стандартным услугам</li>
+                    <li>Фиксированные цены</li>
+                </ul>
+            </div>
+            <div class="team-card reveal">
+                <div class="team-photo"><img src="images/team-ulyana.jpg" alt=""></div>
+                <h4>Советова Ульяна</h4>
+                <ul>
+                    <li>Реклама и связи с общественностью</li>
+                    <li>Работа в юр. клиниках и НКО</li>
+                    <li>Электронный документооборот</li>
+                </ul>
+            </div>
+            <div class="team-card reveal">
+                <div class="team-photo"><img src="images/team-dmitry.jpg" alt=""></div>
+                <h4>Немешаев Дмитрий</h4>
+                <ul>
+                    <li>5+ лет юридического опыта</li>
+                    <li>Эксперт по правовым вопросам</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <section class="container reveal">
+        <div class="contact-box">
+            <h2>Оставьте заявку</h2>
+            <p style="color: #666; margin-bottom: 40px;">Наши специалисты свяжутся с Вами в кратчайшие сроки</p>
+            <form>
+                <div class="input-group"><input type="text" placeholder="Имя (ФИО)"></div>
+                <div class="input-group"><input type="tel" placeholder="Телефон"></div>
+                <div class="input-group"><textarea placeholder="Сообщение" rows="3"></textarea></div>
+                <button type="submit" class="btn" style="background: var(--primary); width: 100%;">ОТПРАВИТЬ →</button>
+            </form>
+        </div>
+    </section>
+
+    <script>
+        // Анимация появления при скролле
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) entry.target.classList.add('active');
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+        // Легкое движение фона за мышкой
+        document.addEventListener('mousemove', (e) => {
+            const x = e.clientX / window.innerWidth;
+            const y = e.clientY / window.innerHeight;
+            document.querySelectorAll('.orb').forEach(orb => {
+                orb.style.transform = `translate(${x * 30}px, ${y * 30}px)`;
+            });
+        });
+    </script>
+</body>
+</html>
